@@ -262,7 +262,7 @@ For all command syntax, required flags, memory types, tagging best practices, an
 1. **Types**: MUST be one of: `fact`, `decision`, `instruction`, `preference`, `learning`, `goal`, `commitment`, `artifact`, `event`, `relationship`, `observation`, `error`, `context`. NEVER invent a type.
 2. **Provenance**: MUST be one of: `explicit_statement`, `inferred`, `observed`, `corrected`, `validated`, `imported`. Pick the one that reflects HOW you learned it, not how confident you are.
 3. **Confidence**: MUST be a float between `0.0` and `1.0`. Do NOT default everything to `1.0` — reserve it for explicit user statements and verified facts. If you would score it below `0.6`, do NOT store it.
-4. **Tags**: MUST pass 2–5 lowercase, hyphenated, specific tags (e.g. `jwt-auth`, not `security`). Generic tags like `important`, `code`, `stuff` are forbidden.
+4. **Tags**: MUST pass 2–5 lowercase, specific tags; hyphenate multi-word concepts (`jwt-auth`, not `jwtAuth` or `jwt auth`). Single-word tags like `postgresql` are fine. Generic tags like `important`, `code`, `stuff` are forbidden.
 5. **Content**: Pass the memory content as a positional argument in quotes, phrased as a durable principle — never a chat log ("User asked...", "We decided...").
 
 **Examples**:
