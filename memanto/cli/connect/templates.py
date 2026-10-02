@@ -49,8 +49,9 @@ memanto recall --changed-since "last 7 days" --tool <agent_name>  # memories cre
 # Grounded RAG answer (Synthesizes memory into a direct answer)
 memanto answer "Question about past decisions or commitments" --tool <agent_name>
 
-# Edit existing memory
-memanto edit MEMORY_ID --content "Updated content" --type TYPE --confidence 0.95
+# Edit existing memory (partial update: pass ONLY the fields that changed;
+# omitted flags keep their current values)
+memanto edit MEMORY_ID --content "Updated content"
 
 # Delete memory
 memanto forget MEMORY_ID
@@ -177,8 +178,11 @@ memanto remember "Use UUID v4 for all primary keys across all PostgreSQL tables"
 ```bash
 # 1. Find the memory that is now outdated
 memanto recall "database stack and ORM" --limit 5 --tool <agent_name>
-# 2. Edit it by ID — do NOT store a second, contradictory copy
-memanto edit MEMORY_ID --content "Database stack is PostgreSQL 16 with Prisma ORM" --type fact --confidence 1.0
+# 2. Edit it by ID — do NOT store a second, contradictory copy.
+#    edit is a partial update: pass ONLY the fields that changed. Omitted
+#    flags keep their existing values, so don't resend metadata you aren't
+#    changing (that would overwrite good tags/confidence with guesses).
+memanto edit MEMORY_ID --content "Database stack is PostgreSQL 16 with Prisma ORM"
 ```
 
 ### Workflow 5: A Memory Became Obsolete (Prune It)
@@ -268,7 +272,7 @@ For all command syntax, required flags, memory types, tagging best practices, an
 **Examples**:
 - **Remember**: `memanto remember "Use UUID v4 for all primary keys across all PostgreSQL tables" --type instruction --tags "database,postgresql,schema" --confidence 1.0 --provenance explicit_statement --source {agent_id}`
 - **Recall**: `memanto recall "Skill hardening brainstorming" --limit 5 --tool {agent_id}`
-- **Edit** (update a stale fact in place): `memanto edit MEMORY_ID --content "Database stack is PostgreSQL 16 with Prisma ORM" --type fact --confidence 1.0`
+- **Edit** (partial update — pass ONLY the fields that changed; omitted flags keep their current values): `memanto edit MEMORY_ID --content "Database stack is PostgreSQL 16 with Prisma ORM"`
 - **Forget** (prune an obsolete memory): `memanto forget MEMORY_ID`
 - **Sync**: `memanto memory sync`
 
